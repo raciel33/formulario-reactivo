@@ -1,0 +1,268 @@
+<form [formGroup]="formulario" (ngSubmit)="guardar()" class="w-50 text-white m-5 bg-dark text-center p-4
+" novalidate>
+    <div>
+        <h4>Formulario</h4>
+        <hr>
+
+    </div>
+    <div>
+
+        <!--NOMBRE-->
+        <div class="form-group row">
+            <!--Si es invalid el nombre el texto es rojo si es valido es blanco -->
+            <label *ngIf="formulario.controls['name'].status === 'INVALID'" class="col-2 col-form-label text-danger">
+        Nombre
+      </label>
+            <label *ngIf="formulario.controls['name'].status === 'VALID'" class="col-2 col-form-label">
+       Nombre
+      </label>
+            <div class="col-md-5">
+                <input class="form-control" type="text" placeholder="Nombre" formControlName="name">
+                <!--Mensaje que aparece en cada caso del que el name no sea valido:-->
+                <div *ngIf="formulario.controls['name'].errors?.required" class="form-control-feedback text-danger">
+                    Campo obligatorio
+                </div>
+                <div *ngIf="formulario.controls['name'].errors?.pattern" class="form-control-feedback text-danger">
+                    Nombre no valido
+                </div>
+                <div *ngIf="formulario.controls['name'].errors?.minlength" class="form-control-feedback text-danger">
+                    Introducir al menos {{formulario.controls['name'].errors?.minlength.requiredLength}} caracteres
+                </div>
+            </div>
+
+        </div>
+
+
+        <!--APELLIDO-->
+        <div class="form-group row mt-3">
+            <!--Si es invalid el apellido el texto es rojo si es valido es blanco -->
+            <label *ngIf="formulario.controls['apellido'].status === 'INVALID'" class="col-2 col-form-label text-danger">
+      Apellidos
+    </label>
+            <label *ngIf="formulario.controls['apellido'].status === 'VALID'" class="col-2 col-form-label">
+      Apellidos
+    </label>
+            <div class="col-md-5">
+                <input class="form-control" type="text" placeholder="Apellido (no puede ser Reyes)" formControlName="apellido">
+
+                <!--Mensaje que aparece en cada caso del que el apellido no sea valido:-->
+                <div *ngIf="formulario.controls['apellido'].errors?.required" class="form-control-feedback text-danger">
+                    Campo obligatorio
+                </div>
+                <div *ngIf="formulario.controls['apellido'].errors?.pattern" class="form-control-feedback text-danger">
+                    Apellido no valido
+                </div>
+                <div *ngIf="formulario.controls['apellido'].errors?.minlength" class="form-control-feedback text-danger">
+                    Introducir al menos {{formulario.controls['apellido'].errors?.minlength.requiredLength}} caracteres
+                </div>
+                <div *ngIf="formulario.controls['apellido'].errors?.noReyes" class="form-control-feedback text-danger">
+                    El apellido no puede ser {{formulario.controls['apellido'].value}}
+                </div>
+            </div>
+        </div>
+
+
+        <!--CORREO-->
+        <div class="form-group row mt-3">
+            <!--Si es invalid el correo el texto es rojo si es valido es blanco -->
+            <label *ngIf="formulario.controls['email'].status === 'INVALID'" class="col-2 col-form-label text-danger">Correo</label>
+            <label *ngIf="formulario.controls['email'].status === 'VALID'" class="col-2 col-form-label ">Correo</label>
+            <div class="col-md-5">
+
+                <input class="form-control" type="email" placeholder="Correo electrónico" formControlName="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+
+                <!--Mensaje que aparece en cada caso del que el correo no sea valido:-->
+                <div *ngIf="formulario.controls['email'].errors?.required" class="form-control-feedback text-danger">
+                    Campo obligatorio
+                </div>
+                <!--Esta expresion regular del correo para que funcione correctamente hay que validarla en el html-->
+                <div *ngIf="formulario.controls['email'].errors?.pattern" class="form-control-feedback text-danger">
+                    Email no valido
+                </div>
+            </div>
+        </div>
+
+
+        <!--TELEFONO-->
+        <div class="form-group row mt-3">
+            <!--Si es invalid el texto es rojo si es valid es blanco -->
+            <label *ngIf="formulario.controls['telefono'].status === 'INVALID'" class="col-2 col-form-label text-danger">Telefono</label>
+            <label *ngIf="formulario.controls['telefono'].status === 'VALID'" class="col-2 col-form-label ">Telefono</label>
+
+            <div class="col-md-5">
+                <input class="form-control" type="tel" placeholder="telefono" formControlName="telefono" pattern="(\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}">
+                <!--Mensaje que aparece en cada caso del que el telefono no sea valido:-->
+                <div *ngIf="formulario.controls['telefono'].errors?.required" class="form-control-feedback text-danger">
+                    Campo obligatorio
+                </div>
+                <!--Esta expresion regular del correo para que funcione correctamente hay que validarla en el html-->
+                <div *ngIf="formulario.controls['telefono'].errors?.pattern" class="form-control-feedback text-danger">
+                    Telefono no valido
+                </div>
+            </div>
+        </div>
+
+
+        <!--SEXO-->
+        <div class="form-group row mt-3">
+            <label class="col-2 col-form-label">Sexo</label>
+            <div class="col-md-2">
+                <!--Si crean tantos input type=radio como elementos hay en el array sexo
+      [value]="item"---cada elemento toma el valor de cada iteracion
+  -->
+                <div class="form-check" *ngFor="let item of sexo">
+                    <input class="form-check-input" type="radio" formControlName="sexo" id="flexRadioDefault1" [value]="item">
+                    <label class="form-check-label" for="flexRadioDefault1">
+          {{item}}
+        </label>
+                </div>
+            </div>
+            <div class="col-2 ">
+                <!--en dependencia de lo elegido lo ponemos abajo-->
+                <span *ngIf="formulario.controls['sexo'].value==='hombre'">
+          <i class="fas fa-male" style="color: blue; width: 50; height: 50;"></i>
+         </span>
+                <span *ngIf="formulario.controls['sexo'].value==='mujer'">
+          <i class="fas fa-female" style="color: rgb(235, 9, 178); width: 50; height: 50;"></i>
+         </span>
+            </div>
+
+        </div>
+
+        <!--PAISES------------>
+        <div class="form-group row mt-3">
+            <label class="col-2 col-form-label">Paises</label>
+            <div class="col-md-4">
+                <select class="form-select" formControlName="paises" aria-label="Default select example">
+    <option selected>Seleccione País</option>
+    <option *ngFor="let item of paises">{{item}}</option>
+  </select>
+
+
+            </div>
+        </div>
+
+        <!--CONTRASEÑA1---------------------------->
+        <div class="form-group row mt-3 ">
+            <!-- si es invalid el texto es rojo y si es valid el texto es blanco
+      [type]="show ? 'text': 'password'"-- para mostrar(true) y ocultar(false) la contraseña
+    show es un boolean que manipulamos con una funcion para que cambie true/false-->
+            <label *ngIf="formulario.controls['password1'].status === 'INVALID'" class="col-2 col-form-label text-danger">Contraseña</label>
+            <label *ngIf="formulario.controls['password1'].status === 'VALID'" class="col-2 col-form-label ">Contraseña</label>
+
+            <div class="col-md-4">
+                <input class="form-control" [type]="show ? 'text': 'password'" placeholder="Contraseña" formControlName="password1" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$">
+
+                <!--Mensaje que aparece en cada caso del que el password no sea valido:-->
+                <div *ngIf="formulario.controls['password1'].errors?.required" class="form-control-feedback text-danger">
+                    Campo obligatorio
+                </div>
+                <!--Para que el pattern de la contraseña funcione hay que hacerlo en el html:-->
+                <div *ngIf="formulario.controls['password1'].errors?.pattern" class="form-control-feedback text-danger">
+                    Mínimo ocho caracteres, al menos una letra mayúscula, una letra minúscula y un número
+                </div>
+            </div>
+            <div class="col-1">
+                <!--(click)="showPassword()"-----Cambiamos el valor de show:true/false para mostrar y ocultar el password
+  cambiar iconos y cambiar texto de span -->
+                <button *ngIf="!show" (click)="showPassword()" class="btn btn-outline-success ">
+    <i class="fas fa-eye"></i>
+  </button>
+                <button *ngIf="show" (click)="showPassword()" class="btn btn-outline-danger">
+    <i class="fas fa-eye-slash"></i>
+  </button>
+            </div>
+            <div class="col-1">
+                <span *ngIf="!show" (click)="showPassword()" class="text-success">
+    Mostrar
+   </span>
+                <span *ngIf="show" (click)="showPassword()" class="text-danger">
+    Ocultar
+  </span>
+            </div>
+        </div>
+
+
+        <!--CONTRASEÑA2---------------------------->
+        <!--Si es invalid el apellido el texto es rojo si es valido es blanco -->
+        <div class="form-group row mt-3 ">
+            <label *ngIf="formulario.controls['password2'].status === 'INVALID'" class="col-2 col-form-label text-danger">Repita Contraseña</label>
+            <label *ngIf="formulario.controls['password2'].status === 'VALID'" class="col-2 col-form-label ">Repita Contraseña</label>
+
+            <div class="col-md-4">
+                <input class="form-control" type="password" placeholder="Repita contraseña" formControlName="password2">
+                <!--Mensaje que aparece en cada caso del que el password no sea valido:-->
+                <div *ngIf="formulario.controls['password2'].errors?.required" class="form-control-feedback text-danger">
+                    Campo obligatorio
+                </div>
+                <div *ngIf="formulario.controls['password2'].errors?.noIgualPassword" class="form-control-feedback text-danger">
+                    No coincide con la contraseña
+                </div>
+            </div>
+        </div>
+
+        <!--HOBBIES--------------------------------------------->
+        <div class="form-group row mt-3">
+            <label class="col-2 col-form-label">Hobbie</label>
+            <div class="col-md-4">
+                <!--[(ngModel)]="hobbie"--- le damos a la variable hobbie el valor de lo que introducimos en el input-->
+                <input class="form-control" type="text" placeholder="hobbie" formControlName="hobbies" [(ngModel)]="hobbie">
+
+                <div class="mt-2">
+                    <ul class="list-group list-group-horizontal-dark mt-1" *ngFor="let item of hobbiesIntroducidos;let i=index">
+                        <li class="list-group-item list-group-item-primary ">
+                            <span class="col">{{i + 1}} - {{item}}</span>
+                            <button (click)="eliminaHobbie(i)" class="col btn btn-outline-danger ms-5">
+                          <i class="far fa-trash-alt"></i>
+                  </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!--Button que muestra los Hobbies -->
+            <div class="col-3">
+                <button (click)="muestraHobbie()" class="btn btn-outline-primary" type="submit">
+    <i class="fas fa-plus"></i>
+  </button>
+                <span class="ms-2">Añadir Hobbie</span>
+            </div>
+
+
+
+        </div>
+
+        <!--Aceptar condiciones---------------------------->
+        <div class="form-group row mt-4 ">
+            <div class="col-md-4 mx-auto">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" formControlName="condiciones">
+                    <label *ngIf="formulario.controls['condiciones'].status === 'INVALID'" class="form-check-label text-danger" for="flexSwitchCheckDefault">
+      Acepto la condiciones
+    </label>
+                    <label *ngIf="formulario.controls['condiciones'].status === 'VALID'" class="form-check-label text-success" for="flexSwitchCheckDefault">
+      Acepto la condiciones
+    </label>
+                </div>
+                <!--Mensaje que aparece en cada caso del que el password no sea valido:-->
+                <div *ngIf="formulario.controls['condiciones'].errors?.aceptoCondiciones" class="form-control-feedback text-danger">
+                    (Debe aceptar las condiciones)
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label">&nbsp;</label>
+            <div class="input-group col-md-8 ">
+                <!--[disabled]="!formulario2.valid" -- poniendo esto como atributo en el boton lo desabilitamos si
+      el formulario no es valido-->
+                <button type="submit" class="btn btn-outline-primary mx-auto" [disabled]="!formulario.valid">
+        Guardar
+      </button>
+            </div>
+        </div>
+    </div>
+    {{formulario.status}}
+
+</form>
